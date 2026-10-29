@@ -1,0 +1,23 @@
+{
+  "name": "battleship",
+  "version": "0.1.0",
+  "description": "Battleship: The game",
+  "homepage": "https://github.com/filip-writes-code/battleship#readme",
+  "bugs": {
+    "url": "https://github.com/filip-writes-code/battleship/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filip-writes-code/battleship.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2"
+  }
+}
