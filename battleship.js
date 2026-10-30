@@ -67,6 +67,11 @@ class Gameboard {
     } else this.tiles[y][x] = 1;
     // if it misses, replace with value 1
   }
+
+  allShipsSunk() {
+    if (this.ships.length === 0) return false;
+    return this.ships.every((ship) => ship.isSunk());
+  }
 }
 
 export { Ship, Gameboard };

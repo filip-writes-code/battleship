@@ -201,4 +201,23 @@ describe("Gameboard tests", () => {
     ]);
     expect(gameboard.ships[0].isSunk()).toBe(true);
   });
+
+  it("Reports when all the ships are sunk", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(2);
+    let anotherTestShip = new Ship(1);
+    gameboard.placeShip(2, 2, testShip, "horizontal");
+    gameboard.placeShip(0, 1, anotherTestShip, "horizontal");
+    expect(gameboard.allShipsSunk()).toBe(false);
+    gameboard.receiveAttack(0, 1);
+    gameboard.receiveAttack(2, 2);
+    expect(gameboard.allShipsSunk()).toBe(false);
+    gameboard.receiveAttack(3, 2);
+    expect(gameboard.allShipsSunk()).toBe(true);
+  });
+
+  it("Doesn't falsely report when the gameboard is empty", () => {
+    let gameboard = new Gameboard();
+    expect(gameboard.allShipsSunk()).toBe(false);
+  });
 });
