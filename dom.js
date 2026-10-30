@@ -6,10 +6,13 @@ class Dom {
     this.playerTwo = playerTwo;
   }
   renderPlayerBoard() {
+    // clear the board before rendering
+    this.playerBoard.replaceChildren();
+
     let playerTiles = this.playerOne.gameboard.tiles;
     for (let y = 0; y < 10; y++) {
       for (let x = 0; x < 10; x++) {
-        const tile = document.createElement("div");
+        const tile = document.createElement("button");
         if (typeof playerTiles[y][x] === "object")
           tile.classList.add("tile-ship");
         else if (playerTiles[y][x] === 0) tile.classList.add("tile");
@@ -18,16 +21,20 @@ class Dom {
 
         tile.dataset.x = x;
         tile.dataset.y = y;
+
         this.playerBoard.appendChild(tile);
       }
     }
   }
 
   renderEnemyBoard() {
+    // clear the board before rendering
+    this.opponentBoard.replaceChildren();
+
     let enemyTiles = this.playerTwo.gameboard.tiles;
     for (let y = 0; y < 10; y++) {
       for (let x = 0; x < 10; x++) {
-        const tile = document.createElement("div");
+        const tile = document.createElement("button");
         if (typeof enemyTiles[y][x] === "object") tile.classList.add("tile");
         else if (enemyTiles[y][x] === 0) tile.classList.add("tile");
         else if (enemyTiles[y][x] === 1) tile.classList.add("tile-miss");
@@ -35,9 +42,23 @@ class Dom {
 
         tile.dataset.x = x;
         tile.dataset.y = y;
+
+        tile.addEventListener("click", () => {
+          this.playerTwo.gameboard.receiveAttack(
+            tile.dataset.x,
+            tile.dataset.y,
+          );
+          this.renderEnemyBoard();
+        });
+
         this.opponentBoard.appendChild(tile);
       }
     }
+  }
+
+  toggleEnemyBoard() {
+    let enemyBoard = document.querySelector(".opponent-board");
+    enemyBoard.disabled = true;
   }
 }
 
