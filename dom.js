@@ -1,3 +1,5 @@
+import { playTurn } from "./game.js";
+
 class Dom {
   constructor(playerOne, playerTwo) {
     this.playerBoard = document.querySelector(".player-board");
@@ -44,11 +46,7 @@ class Dom {
         tile.dataset.y = y;
 
         tile.addEventListener("click", () => {
-          this.playerTwo.gameboard.receiveAttack(
-            tile.dataset.x,
-            tile.dataset.y,
-          );
-          this.renderEnemyBoard();
+          playTurn(x, y);
         });
 
         this.opponentBoard.appendChild(tile);
