@@ -39,8 +39,13 @@ class Dom {
         const tile = document.createElement("button");
         if (typeof enemyTiles[y][x] === "object") tile.classList.add("tile");
         else if (enemyTiles[y][x] === 0) tile.classList.add("tile");
-        else if (enemyTiles[y][x] === 1) tile.classList.add("tile-miss");
-        else if (enemyTiles[y][x] === 2) tile.classList.add("tile-hit");
+        else if (enemyTiles[y][x] === 1) {
+          tile.classList.add("tile-miss");
+          tile.disabled = true;
+        } else if (enemyTiles[y][x] === 2) {
+          tile.classList.add("tile-hit");
+          tile.disabled = true;
+        }
 
         tile.dataset.x = x;
         tile.dataset.y = y;

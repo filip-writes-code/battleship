@@ -24,8 +24,25 @@ function switchTurns() {
 
 function playComputerMove() {
   if (currentPlayer.type !== "computer") return;
-  const randomNumber = () => Math.floor(Math.random() * 9) + 1;
-  playTurn(randomNumber(), randomNumber());
+
+  // helper function to generate and verify the computer has not played the same random coordinates before
+  function generateAndCheckCoordinates() {
+    const randomNumber = () => Math.floor(Math.random() * 10);
+    let x = randomNumber();
+    let y = randomNumber();
+    if (
+      enemyPlayer.gameboard.tiles[y][x] === 2 ||
+      enemyPlayer.gameboard.tiles[y][x] === 1
+    ) {
+      return false;
+    } else {
+      return [x, y];
+    }
+  }
+  // keep getting coordinates if they have been played
+  let targetCoordinates = generateAndCheckCoordinates();
+  while (!targetCoordinates) targetCoordinates = generateAndCheckCoordinates();
+  playTurn(targetCoordinates[0], targetCoordinates[1]);
 }
 
 export function playTurn(x, y) {
