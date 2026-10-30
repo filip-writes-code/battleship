@@ -1,4 +1,4 @@
-import { Player, Ship, Gameboard } from "./battleship";
+import { Player, Ship, Gameboard } from "./battleship.js";
 
 const playerOne = new Player("Mario", "human");
 playerOne.gameboard.placeShip(3, 2, new Ship(3), "vertical");
