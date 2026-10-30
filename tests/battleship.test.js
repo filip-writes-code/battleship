@@ -140,4 +140,65 @@ describe("Gameboard tests", () => {
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ]);
   });
+
+  it("Places a ship and hits it", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(2, 2, testShip, "horizontal")).toBe(true);
+    gameboard.receiveAttack(2, 2);
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 2, testShip, testShip, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it("The attacks that miss the ships are logged", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(2, 2, testShip, "horizontal")).toBe(true);
+    gameboard.receiveAttack(0, 0);
+    expect(gameboard.tiles).toEqual([
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, testShip, testShip, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it("The boats sink", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(2, 2, testShip, "horizontal")).toBe(true);
+    gameboard.receiveAttack(2, 2);
+    gameboard.receiveAttack(3, 2);
+    expect(gameboard.ships[0].isSunk()).toBe(false);
+    gameboard.receiveAttack(4, 2);
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 2, 2, 2, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    expect(gameboard.ships[0].isSunk()).toBe(true);
+  });
 });

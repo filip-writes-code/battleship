@@ -21,6 +21,8 @@ class Gameboard {
     this.tiles = Array.from({ length: 10 }, () =>
       Array.from({ length: 10 }, () => 0),
     );
+    //array of ships on the gameboard
+    this.ships = [];
   }
 
   placeShip(x, y, ship, direction) {
@@ -52,7 +54,18 @@ class Gameboard {
         shipSize--;
       }
     }
+    this.ships.push(ship);
     return true;
+  }
+
+  receiveAttack(x, y) {
+    // if it hits a ship, send the hit to the ship object
+    // and replace it with a value of 2
+    if (typeof this.tiles[y][x] === "object") {
+      this.tiles[y][x].hit();
+      this.tiles[y][x] = 2;
+    } else this.tiles[y][x] = 1;
+    // if it misses, replace with value 1
   }
 }
 
