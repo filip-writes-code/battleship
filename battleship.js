@@ -24,7 +24,15 @@ class Gameboard {
   }
 
   placeShip(x, y, ship, direction) {
-    this.tiles[y][x] = ship;
+    let shipSize = ship.size;
+
+    if (direction === "horizontal") {
+      while (shipSize > 0) {
+        this.tiles[y][x] = ship;
+        x++;
+        shipSize--;
+      }
+    }
   }
 }
 

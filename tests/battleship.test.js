@@ -35,11 +35,29 @@ describe("Gameboard tests", () => {
   it("Places small (1) ships", () => {
     let gameboard = new Gameboard();
     let testShip = new Ship(1);
-    gameboard.placeShip(0, 1, testShip);
+    gameboard.placeShip(0, 1, testShip, "horizontal");
     expect(gameboard.tiles).toEqual([
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [testShip, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it("Places medium (3) ships", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    gameboard.placeShip(2, 2, testShip, "horizontal");
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, testShip, testShip, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
