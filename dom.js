@@ -47,8 +47,9 @@ class Dom {
           tile.disabled = true;
         }
 
-        tile.dataset.x = x;
-        tile.dataset.y = y;
+        // not really needed
+        // tile.dataset.x = x;
+        // tile.dataset.y = y;
 
         tile.addEventListener("click", () => {
           playTurn(x, y);
