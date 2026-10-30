@@ -14,4 +14,13 @@ class Ship {
   }
 }
 
-export { Ship };
+class Gameboard {
+  constructor() {
+    // row is an array of 10 values
+    // the entire gameboard is 10x10
+    const row = Array(10).fill(0);
+    this.tiles = Array(10).fill(row);
+  }
+}
+
+export { Ship, Gameboard };
