@@ -1,6 +1,6 @@
 class Ship {
-  constructor(length) {
-    this.length = length;
+  constructor(size) {
+    this.size = size;
     this.timesHit = 0;
   }
 
@@ -9,17 +9,22 @@ class Ship {
   }
 
   isSunk() {
-    if (this.timesHit === this.length) return true;
+    if (this.timesHit === this.size) return true;
     else return false;
   }
 }
 
 class Gameboard {
   constructor() {
-    // row is an array of 10 values
-    // the entire gameboard is 10x10
-    const row = Array(10).fill(0);
-    this.tiles = Array(10).fill(row);
+    // initializes a 10x10 gameboard
+    // the gameboard is represented by 10 arrays with 10 values
+    this.tiles = Array.from({ length: 10 }, () =>
+      Array.from({ length: 10 }, () => 0),
+    );
+  }
+
+  placeShip(x, y, ship, direction) {
+    this.tiles[y][x] = ship;
   }
 }
 
