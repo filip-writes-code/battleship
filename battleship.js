@@ -26,13 +26,33 @@ class Gameboard {
   placeShip(x, y, ship, direction) {
     let shipSize = ship.size;
 
+    // make sure the tiles are clear for ship placement
+    // and on the board, not outside of it
     if (direction === "horizontal") {
+      for (let i = 0; i < shipSize; i++) {
+        if (x + i >= 10 || typeof this.tiles[y][x + i] === "object")
+          return false;
+      }
+      //if the tiles are clear, place the ship
       while (shipSize > 0) {
         this.tiles[y][x] = ship;
         x++;
         shipSize--;
       }
     }
+    if (direction === "vertical") {
+      for (let i = 0; i < shipSize; i++) {
+        if (y + i >= 10 || typeof this.tiles[y + i][x] === "object")
+          return false;
+      }
+      //if the tiles are clear, place the ship
+      while (shipSize > 0) {
+        this.tiles[y][x] = ship;
+        y++;
+        shipSize--;
+      }
+    }
+    return true;
   }
 }
 

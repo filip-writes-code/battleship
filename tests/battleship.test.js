@@ -35,7 +35,7 @@ describe("Gameboard tests", () => {
   it("Places small (1) ships", () => {
     let gameboard = new Gameboard();
     let testShip = new Ship(1);
-    gameboard.placeShip(0, 1, testShip, "horizontal");
+    expect(gameboard.placeShip(0, 1, testShip, "horizontal")).toBe(true);
     expect(gameboard.tiles).toEqual([
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [testShip, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -53,11 +53,84 @@ describe("Gameboard tests", () => {
   it("Places medium (3) ships", () => {
     let gameboard = new Gameboard();
     let testShip = new Ship(3);
-    gameboard.placeShip(2, 2, testShip, "horizontal");
+    expect(gameboard.placeShip(2, 2, testShip, "horizontal")).toBe(true);
     expect(gameboard.tiles).toEqual([
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, testShip, testShip, testShip, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it("Places medium (3) ships vertically", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(2, 2, testShip, "vertical")).toBe(true);
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it("Doesn't place a ship over an existing ship", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(2, 2, testShip, "vertical")).toBe(true);
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, testShip, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    expect(gameboard.placeShip(2, 2, testShip, "horizontal")).toBe(false);
+  });
+
+  it("Doesn't place ships outside of the board", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(8, 2, testShip, "horizontal")).toBe(false);
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+  });
+
+  it("Doesn't place ships outside of the board in vertical mode", () => {
+    let gameboard = new Gameboard();
+    let testShip = new Ship(3);
+    expect(gameboard.placeShip(2, 8, testShip, "vertical")).toBe(false);
+    expect(gameboard.tiles).toEqual([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
