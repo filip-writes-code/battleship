@@ -61,6 +61,11 @@ body {
 }
 
 button {
+  padding: 10px;
+}
+
+.player-side,
+.opponent-side button {
   all: unset;
   cursor: pointer;
 }
@@ -86,6 +91,13 @@ button {
   flex-direction: column;
 }
 
+.boat-header {
+  width: 100%;
+  text-align: center;
+  background-color: rgb(25, 25, 25);
+  padding: 8px 0;
+}
+
 .player-header,
 .opponent-header {
   text-align: center;
@@ -103,12 +115,24 @@ button {
   background-color: black;
 }
 
+.boats-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .boats-selector {
   display: flex;
   flex-direction: column;
   width: max-content;
   background-color: black;
   padding: 10px;
+  gap: 10px;
+}
+
+.button-section {
+  margin-top: 20px;
+  display: flex;
   gap: 10px;
 }
 
