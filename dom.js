@@ -29,6 +29,132 @@ class Dom {
     }
   }
 
+  renderPlayerSetupBoard() {
+    // clear the board before rendering
+    this.playerBoard.replaceChildren();
+
+    let playerTiles = this.playerOne.gameboard.tiles;
+    for (let y = 0; y < 10; y++) {
+      for (let x = 0; x < 10; x++) {
+        const tile = document.createElement("div");
+        if (typeof playerTiles[y][x] === "object")
+          tile.classList.add("tile-ship");
+        else if (playerTiles[y][x] === 0) tile.classList.add("tile");
+        else if (playerTiles[y][x] === 1) tile.classList.add("tile-miss");
+        else if (playerTiles[y][x] === 2) tile.classList.add("tile-hit");
+
+        tile.dataset.x = x;
+        tile.dataset.y = y;
+
+        this.playerBoard.appendChild(tile);
+      }
+    }
+    // proof of concept
+    const shipBlock = document.querySelector(".ship-container");
+    let grabbedSegment;
+    let length;
+    let orientation;
+
+    shipBlock.addEventListener("mousedown", (ev) => {
+      const grabbedSegment = ev.target.dataset.segment;
+      ev.target.parentElement.dataset.segment = grabbedSegment;
+      console.log("Grabbed segment:", grabbedSegment);
+    });
+
+    shipBlock.addEventListener("dragstart", (ev) => {
+      grabbedSegment = ev.target.dataset.segment;
+      length = ev.target.dataset.length;
+      orientation = ev.target.dataset.orientation;
+
+      ev.dataTransfer.setData("text/length", length);
+      ev.dataTransfer.setData("text/segment", grabbedSegment);
+      ev.dataTransfer.setData("text/orientation", orientation);
+
+      console.log("Drag segment", ev.dataTransfer.getData("text/segment"));
+      console.log("Drag length:", ev.dataTransfer.getData("text/length"));
+      console.log("Drag length:", ev.dataTransfer.getData("text/orientation"));
+    });
+
+    // drag and drop ocuppied tiles
+    function getOcuppyingTiles(
+      targetTile,
+      length,
+      orientation,
+      grabbedSegment,
+    ) {
+      const x = parseInt(targetTile.dataset.x);
+      const y = parseInt(targetTile.dataset.y);
+      const cells = [];
+
+      const originX = orientation === "horizontal" ? x - grabbedSegment : x;
+      const originY = orientation === "vertical" ? y - grabbedSegment : y;
+
+      for (let i = 0; i < length; i++) {
+        const occupiedX = orientation === "horizontal" ? originX + i : originX;
+        const occupiedY = orientation === "vertical" ? originY + i : originY;
+        if (
+          occupiedY >= 0 &&
+          occupiedY < 10 &&
+          occupiedX >= 0 &&
+          occupiedX < 10
+        ) {
+          const cellElement = document.querySelector(
+            `[data-y="${occupiedY}"][data-x="${occupiedX}"]`,
+          );
+          cells.push(cellElement);
+        } else {
+          return null; // Out of bounds flag
+        }
+      }
+      return cells;
+    }
+
+    //event listeners for drag and drop
+    const availableTiles = document.querySelectorAll(".tile");
+    availableTiles.forEach((tile) => {
+      tile.addEventListener("dragover", (ev) => {
+        ev.preventDefault();
+        const cell = ev.target;
+
+        const tiles = getOcuppyingTiles(
+          cell,
+          length,
+          orientation,
+          grabbedSegment,
+        );
+        if (tiles) {
+          tiles.forEach((tile) => {
+            tile.classList.add("drag-over");
+          });
+        }
+      });
+    });
+
+    //clears all hover effects
+    function clearAllHoverEffects() {
+      const allTiles = document.querySelectorAll(".tile");
+
+      allTiles.forEach((tile) => {
+        tile.classList.remove("drag-over");
+      });
+    }
+
+    availableTiles.forEach((tile) => {
+      tile.addEventListener("dragleave", () => {
+        clearAllHoverEffects();
+      });
+    });
+
+    availableTiles.forEach((tile) => {
+      tile.addEventListener("drop", (ev) => {
+        ev.preventDefault();
+        clearAllHoverEffects();
+        const data = ev.dataTransfer.getData("text/length");
+        ev.target.innerText = data;
+      });
+    });
+  }
+
   renderEnemyBoard() {
     // clear the board before rendering
     this.opponentBoard.replaceChildren();

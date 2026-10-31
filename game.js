@@ -9,7 +9,7 @@ restartBtn.addEventListener("click", restartGame);
 
 // set up players and randomize the board
 let playerOne = new Player("Mario", "human");
-playerOne.gameboard.randomizeShipPlacement();
+// playerOne.gameboard.randomizeShipPlacement();
 
 let playerTwo = new Player("Destroyer", "computer");
 playerTwo.gameboard.randomizeShipPlacement();
@@ -87,5 +87,11 @@ export function playTurn(x, y) {
 
 // set up initial DOM and render
 let dom = new Dom(playerOne, playerTwo);
-dom.renderPlayerBoard();
-dom.renderEnemyBoard();
+dom.renderPlayerSetupBoard();
+
+const opponentSide = document.querySelector(".opponent-side");
+const gameContainer = document.querySelector(".container");
+opponentSide.remove();
+
+// dom.renderPlayerBoard();
+// dom.renderEnemyBoard();
