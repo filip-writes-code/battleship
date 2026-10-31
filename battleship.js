@@ -72,6 +72,31 @@ class Gameboard {
     if (this.ships.length === 0) return false;
     return this.ships.every((ship) => ship.isSunk());
   }
+
+  randomizeShipPlacement() {
+    const ships = [];
+    ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
+
+    const randomNumber = () => Math.floor(Math.random() * 10);
+    const randomDirection = () => {
+      const random = Math.floor(Math.random() * 2);
+      if (random === 0) return "horizontal";
+      if (random === 1) return "vertical";
+    };
+
+    //place the ships
+    while (ships.length > 0) {
+      const shipToPlace = ships.shift();
+      let shipPlacement;
+      while (!shipPlacement)
+        shipPlacement = this.placeShip(
+          randomNumber(),
+          randomNumber(),
+          shipToPlace,
+          randomDirection(),
+        );
+    }
+  }
 }
 
 class Player {

@@ -1,12 +1,12 @@
-import { Player, Ship } from "./battleship.js";
+import { Player } from "./battleship.js";
 import { Dom } from "./dom.js";
 
-// set up players
+// set up players and randomize the board
 const playerOne = new Player("Mario", "human");
-playerOne.gameboard.placeShip(3, 2, new Ship(3), "vertical");
+playerOne.gameboard.randomizeShipPlacement();
 
 const playerTwo = new Player("Luigi", "computer");
-playerTwo.gameboard.placeShip(2, 7, new Ship(3), "horizontal");
+playerTwo.gameboard.randomizeShipPlacement();
 
 // set up player turns
 let currentPlayer = playerOne;
@@ -45,10 +45,23 @@ function playComputerMove() {
   playTurn(targetCoordinates[0], targetCoordinates[1]);
 }
 
+function checkForWinner() {
+  if (playerOne.gameboard.allShipsSunk()) return playerTwo;
+  if (playerTwo.gameboard.allShipsSunk()) return playerOne;
+  return false;
+}
+
+// main game function
 export function playTurn(x, y) {
   enemyPlayer.gameboard.receiveAttack(x, y);
   dom.renderEnemyBoard();
   dom.renderPlayerBoard();
+
+  const winner = checkForWinner();
+  if (winner) {
+    console.log(winner.name);
+    return;
+  }
   switchTurns();
   playComputerMove();
 }
