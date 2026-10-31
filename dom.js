@@ -1,3 +1,4 @@
+import { Ship } from "./battleship.js";
 import { playTurn } from "./game.js";
 
 class Dom {
@@ -50,29 +51,38 @@ class Dom {
       }
     }
     // proof of concept
-    const shipBlock = document.querySelector(".ship-container");
+    const shipBlocks = document.querySelectorAll(".ship-container");
     let grabbedSegment;
     let length;
     let orientation;
+    let shipHeadX;
+    let shipHeadY;
+    let draggedElement;
 
-    shipBlock.addEventListener("mousedown", (ev) => {
-      const grabbedSegment = ev.target.dataset.segment;
-      ev.target.parentElement.dataset.segment = grabbedSegment;
-      console.log("Grabbed segment:", grabbedSegment);
-    });
+    shipBlocks.forEach((shipBlock) => {
+      shipBlock.addEventListener("mousedown", (ev) => {
+        grabbedSegment = ev.target.dataset.segment;
+        // ev.target.parentElement.dataset.segment = grabbedSegment;
+        console.log("Grabbed segment:", grabbedSegment);
+      });
 
-    shipBlock.addEventListener("dragstart", (ev) => {
-      grabbedSegment = ev.target.dataset.segment;
-      length = ev.target.dataset.length;
-      orientation = ev.target.dataset.orientation;
+      shipBlock.addEventListener("dragstart", (ev) => {
+        draggedElement = ev.target;
+        // grabbedSegment = ev.target.dataset.segment;
+        length = ev.target.dataset.length;
+        orientation = ev.target.dataset.orientation;
 
-      ev.dataTransfer.setData("text/length", length);
-      ev.dataTransfer.setData("text/segment", grabbedSegment);
-      ev.dataTransfer.setData("text/orientation", orientation);
+        ev.dataTransfer.setData("text/length", length);
+        ev.dataTransfer.setData("text/segment", grabbedSegment);
+        ev.dataTransfer.setData("text/orientation", orientation);
 
-      console.log("Drag segment", ev.dataTransfer.getData("text/segment"));
-      console.log("Drag length:", ev.dataTransfer.getData("text/length"));
-      console.log("Drag length:", ev.dataTransfer.getData("text/orientation"));
+        console.log("Drag segment", ev.dataTransfer.getData("text/segment"));
+        console.log("Drag length:", ev.dataTransfer.getData("text/length"));
+        console.log(
+          "Drag length:",
+          ev.dataTransfer.getData("text/orientation"),
+        );
+      });
     });
 
     // drag and drop ocuppied tiles
@@ -88,6 +98,9 @@ class Dom {
 
       const originX = orientation === "horizontal" ? x - grabbedSegment : x;
       const originY = orientation === "vertical" ? y - grabbedSegment : y;
+
+      shipHeadX = originX;
+      shipHeadY = originY;
 
       for (let i = 0; i < length; i++) {
         const occupiedX = orientation === "horizontal" ? originX + i : originX;
@@ -150,7 +163,14 @@ class Dom {
         ev.preventDefault();
         clearAllHoverEffects();
         const data = ev.dataTransfer.getData("text/length");
-        ev.target.innerText = data;
+        const success = this.playerOne.gameboard.placeShip(
+          shipHeadX,
+          shipHeadY,
+          new Ship(length),
+          orientation,
+        );
+        if (success) draggedElement.remove();
+        this.renderPlayerSetupBoard();
       });
     });
   }
