@@ -60,12 +60,11 @@ body {
   background-color: #0056b3;
 }
 
-button {
+/* .button-section button {
   padding: 10px;
-}
+} */
 
-.player-side,
-.opponent-side button {
+button {
   all: unset;
   cursor: pointer;
 }

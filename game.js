@@ -93,5 +93,16 @@ const opponentSide = document.querySelector(".opponent-side");
 const gameContainer = document.querySelector(".container");
 opponentSide.remove();
 
+const randomizeBtn = document.querySelector("#randomize");
+
+randomizeBtn.addEventListener("click", () => {
+  const boatsSetup = document.querySelector(".boats-setup");
+  boatsSetup.remove();
+  gameContainer.append(opponentSide);
+  playerOne.gameboard.randomizeShipPlacement();
+  dom.renderPlayerBoard();
+  dom.renderEnemyBoard();
+});
+
 // dom.renderPlayerBoard();
 // dom.renderEnemyBoard();
