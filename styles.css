@@ -15,6 +15,51 @@ body {
     sans-serif;
 }
 
+/* Hidden by default */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Darkens the background */
+  backdrop-filter: blur(5px); /* Soft blur effect */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  color: black;
+}
+
+/* Modal box styling */
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+}
+
+/* Show class triggered by JS */
+.modal-overlay.show {
+  display: flex;
+}
+
+/* Button style */
+#restartBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#restartBtn:hover {
+  background-color: #0056b3;
+}
+
 button {
   all: unset;
   cursor: pointer;

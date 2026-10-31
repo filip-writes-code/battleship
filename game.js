@@ -1,11 +1,17 @@
 import { Player } from "./battleship.js";
 import { Dom } from "./dom.js";
 
+// setup html win modal
+const winnerModal = document.getElementById("gameModal");
+const winnerText = document.getElementById("winnerText");
+const restartBtn = document.getElementById("restartBtn");
+restartBtn.addEventListener("click", restartGame);
+
 // set up players and randomize the board
-const playerOne = new Player("Mario", "human");
+let playerOne = new Player("Mario", "human");
 playerOne.gameboard.randomizeShipPlacement();
 
-const playerTwo = new Player("Luigi", "computer");
+let playerTwo = new Player("Destroyer", "computer");
 playerTwo.gameboard.randomizeShipPlacement();
 
 // set up player turns
@@ -51,6 +57,18 @@ function checkForWinner() {
   return false;
 }
 
+// restart the game
+function restartGame() {
+  playerOne = new Player("Mario", "human");
+  playerTwo = new Player("Destroyer", "computer");
+  playerOne.gameboard.randomizeShipPlacement();
+  playerTwo.gameboard.randomizeShipPlacement();
+  dom = new Dom(playerOne, playerTwo);
+  dom.renderPlayerBoard();
+  dom.renderEnemyBoard();
+  winnerModal.classList.remove("show");
+}
+
 // main game function
 export function playTurn(x, y) {
   enemyPlayer.gameboard.receiveAttack(x, y);
@@ -59,14 +77,15 @@ export function playTurn(x, y) {
 
   const winner = checkForWinner();
   if (winner) {
-    console.log(winner.name);
+    winnerText.innerText = `${winner.name} wins!`;
+    winnerModal.classList.add("show");
     return;
   }
   switchTurns();
   playComputerMove();
 }
 
-// set up DOM and render
-const dom = new Dom(playerOne, playerTwo);
+// set up initial DOM and render
+let dom = new Dom(playerOne, playerTwo);
 dom.renderPlayerBoard();
 dom.renderEnemyBoard();
