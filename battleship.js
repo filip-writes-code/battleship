@@ -25,6 +25,14 @@ class Gameboard {
     this.ships = [];
   }
 
+  clearGameboard() {
+    this.tiles = Array.from({ length: 10 }, () =>
+      Array.from({ length: 10 }, () => 0),
+    );
+    //array of ships on the gameboard
+    this.ships = [];
+  }
+
   placeShip(x, y, ship, direction) {
     let shipSize = ship.size;
 

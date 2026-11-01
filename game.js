@@ -99,6 +99,7 @@ randomizeBtn.addEventListener("click", () => {
   const boatsSetup = document.querySelector(".boats-setup");
   boatsSetup.remove();
   gameContainer.append(opponentSide);
+  playerOne.gameboard.clearGameboard();
   playerOne.gameboard.randomizeShipPlacement();
   dom.renderPlayerBoard();
   dom.renderEnemyBoard();
