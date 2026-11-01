@@ -70,7 +70,7 @@ function restartGame() {
 }
 
 // main game function
-export function playTurn(x, y) {
+function playTurn(x, y) {
   enemyPlayer.gameboard.receiveAttack(x, y);
   dom.renderEnemyBoard();
   dom.renderPlayerBoard();
@@ -85,16 +85,26 @@ export function playTurn(x, y) {
   playComputerMove();
 }
 
+// start the game after setup
+function startGame() {
+  const boatsSetup = document.querySelector(".boats-setup");
+  boatsSetup.remove();
+  gameContainer.append(opponentSide);
+  dom.renderPlayerBoard();
+  dom.renderEnemyBoard();
+}
+
 // set up initial DOM and render
 let dom = new Dom(playerOne, playerTwo);
 dom.renderPlayerSetupBoard();
 
+// remove enemy board and render ship placement screen
 const opponentSide = document.querySelector(".opponent-side");
 const gameContainer = document.querySelector(".container");
 opponentSide.remove();
 
+// randomize fleet button event listener
 const randomizeBtn = document.querySelector("#randomize");
-
 randomizeBtn.addEventListener("click", () => {
   const boatsSetup = document.querySelector(".boats-setup");
   boatsSetup.remove();
@@ -105,5 +115,4 @@ randomizeBtn.addEventListener("click", () => {
   dom.renderEnemyBoard();
 });
 
-// dom.renderPlayerBoard();
-// dom.renderEnemyBoard();
+export { playTurn, startGame };

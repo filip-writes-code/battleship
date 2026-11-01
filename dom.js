@@ -1,5 +1,5 @@
 import { Ship } from "./battleship.js";
-import { playTurn } from "./game.js";
+import { playTurn, startGame } from "./game.js";
 
 class Dom {
   constructor(playerOne, playerTwo) {
@@ -58,6 +58,11 @@ class Dom {
     let shipHeadX;
     let shipHeadY;
     let draggedElement;
+
+    if (shipBlocks.length === 0) {
+      startGame();
+      return;
+    }
 
     shipBlocks.forEach((shipBlock) => {
       shipBlock.addEventListener("mousedown", (ev) => {
