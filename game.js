@@ -94,6 +94,23 @@ function playTurn(x, y) {
 function addBoats() {
   gameContainer.insertAdjacentHTML("beforeend", boatSetupHtmlBlock);
 
+  const rotateBtn = document.querySelector("#rotate");
+  rotateBtn.addEventListener("click", () => {
+    const boatsSelector = document.querySelector(".boats-selector");
+    const shipBlocks = document.querySelectorAll(".ship-container");
+
+    shipBlocks.forEach((shipBlock) => {
+      if (shipBlock.dataset.orientation === "horizontal") {
+        shipBlock.dataset.orientation = "vertical";
+        shipBlock.classList.toggle("rotation-toggle");
+      } else {
+        shipBlock.dataset.orientation = "horizontal";
+        shipBlock.classList.toggle("rotation-toggle");
+      }
+    });
+    boatsSelector.classList.toggle("rotation-toggle");
+  });
+
   const randomizeBtn = document.querySelector("#randomize");
   randomizeBtn.addEventListener("click", () => {
     const boatsSetup = document.querySelector(".boats-setup");

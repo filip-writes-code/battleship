@@ -1,6 +1,6 @@
 const boatSetupHtmlBlock = `<div class="boats-setup">
         <div class="boat-header">Place Your Fleet</div>
-        <div class="boats-selector">
+        <div class="boats-selector rotation-toggle">
           <div
             class="ship-container"
             data-length="5"
@@ -55,7 +55,7 @@ const boatSetupHtmlBlock = `<div class="boats-setup">
           </div>
         </div>
         <div class="button-section">
-          <button>Rotate Ships</button>
+          <button id="rotate">Rotate Ships</button>
           <button id="randomize">Randomize Fleet!</button>
         </div>
       </div>`;
