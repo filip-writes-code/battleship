@@ -1,10 +1,12 @@
 import { Player } from "./battleship.js";
 import { Dom } from "./dom.js";
+import { boatSetupHtmlBlock } from "./shipSetup.js";
 
 // setup html win modal
 const winnerModal = document.getElementById("gameModal");
 const winnerText = document.getElementById("winnerText");
 const restartBtn = document.getElementById("restartBtn");
+const boatsFreshHtml = boatSetupHtmlBlock;
 restartBtn.addEventListener("click", restartGame);
 
 // set up players and randomize the board
@@ -61,11 +63,13 @@ function checkForWinner() {
 function restartGame() {
   playerOne = new Player("Mario", "human");
   playerTwo = new Player("Destroyer", "computer");
-  playerOne.gameboard.randomizeShipPlacement();
   playerTwo.gameboard.randomizeShipPlacement();
   dom = new Dom(playerOne, playerTwo);
-  dom.renderPlayerBoard();
+  addBoats();
+  dom.renderPlayerSetupBoard();
   dom.renderEnemyBoard();
+  opponentSide = document.querySelector(".opponent-side");
+  opponentSide.remove();
   winnerModal.classList.remove("show");
 }
 
@@ -85,6 +89,23 @@ function playTurn(x, y) {
   playComputerMove();
 }
 
+//function that adds the ships on the setup screen
+// if any buttons on the ship screen need event listeners - they go here
+function addBoats() {
+  gameContainer.insertAdjacentHTML("beforeend", boatSetupHtmlBlock);
+
+  const randomizeBtn = document.querySelector("#randomize");
+  randomizeBtn.addEventListener("click", () => {
+    const boatsSetup = document.querySelector(".boats-setup");
+    boatsSetup.remove();
+    gameContainer.append(opponentSide);
+    playerOne.gameboard.clearGameboard();
+    playerOne.gameboard.randomizeShipPlacement();
+    dom.renderPlayerBoard();
+    dom.renderEnemyBoard();
+  });
+}
+
 // start the game after setup
 function startGame() {
   const boatsSetup = document.querySelector(".boats-setup");
@@ -96,23 +117,14 @@ function startGame() {
 
 // set up initial DOM and render
 let dom = new Dom(playerOne, playerTwo);
+let opponentSide = document.querySelector(".opponent-side");
+let gameContainer = document.querySelector(".container");
+opponentSide.remove();
+addBoats();
 dom.renderPlayerSetupBoard();
 
 // remove enemy board and render ship placement screen
-const opponentSide = document.querySelector(".opponent-side");
-const gameContainer = document.querySelector(".container");
-opponentSide.remove();
 
 // randomize fleet button event listener
-const randomizeBtn = document.querySelector("#randomize");
-randomizeBtn.addEventListener("click", () => {
-  const boatsSetup = document.querySelector(".boats-setup");
-  boatsSetup.remove();
-  gameContainer.append(opponentSide);
-  playerOne.gameboard.clearGameboard();
-  playerOne.gameboard.randomizeShipPlacement();
-  dom.renderPlayerBoard();
-  dom.renderEnemyBoard();
-});
 
 export { playTurn, startGame };

@@ -67,8 +67,6 @@ class Dom {
     shipBlocks.forEach((shipBlock) => {
       shipBlock.addEventListener("mousedown", (ev) => {
         grabbedSegment = ev.target.dataset.segment;
-        // ev.target.parentElement.dataset.segment = grabbedSegment;
-        console.log("Grabbed segment:", grabbedSegment);
       });
 
       shipBlock.addEventListener("dragstart", (ev) => {
@@ -80,13 +78,6 @@ class Dom {
         ev.dataTransfer.setData("text/length", length);
         ev.dataTransfer.setData("text/segment", grabbedSegment);
         ev.dataTransfer.setData("text/orientation", orientation);
-
-        console.log("Drag segment", ev.dataTransfer.getData("text/segment"));
-        console.log("Drag length:", ev.dataTransfer.getData("text/length"));
-        console.log(
-          "Drag length:",
-          ev.dataTransfer.getData("text/orientation"),
-        );
       });
     });
 
