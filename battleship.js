@@ -116,10 +116,15 @@ class Gameboard {
 }
 
 class Player {
-  constructor(name, type) {
-    this.name = name;
+  constructor(type) {
+    this.name = "";
     this.type = type;
     this.gameboard = new Gameboard();
+  }
+
+  setName(newName) {
+    if (newName === "") this.name = "Human";
+    else this.name = newName;
   }
 }
 

@@ -2,6 +2,17 @@ import { Player } from "./battleship.js";
 import { Dom } from "./dom.js";
 import { boatSetupHtmlBlock } from "./shipSetup.js";
 
+// player name modal
+let playerName = "";
+const playerNameModal = document.getElementById("nameModal");
+const playerNameBtn = document.getElementById("goBtn");
+playerNameBtn.addEventListener("click", (e) => {
+  playerName = document.getElementById("player-name").value;
+  playerOne.setName(playerName);
+  playerNameModal.classList.remove("show");
+});
+document.getElementById("player-name").focus();
+
 // setup html win modal
 const winnerModal = document.getElementById("gameModal");
 const winnerText = document.getElementById("winnerText");
@@ -10,10 +21,10 @@ const boatsFreshHtml = boatSetupHtmlBlock;
 restartBtn.addEventListener("click", restartGame);
 
 // set up players and randomize the board
-let playerOne = new Player("Mario", "human");
-// playerOne.gameboard.randomizeShipPlacement();
-
-let playerTwo = new Player("Destroyer", "computer");
+let playerOne = new Player("human");
+playerOne.setName(playerName);
+let playerTwo = new Player("computer");
+playerTwo.setName("AI Destroyer");
 playerTwo.gameboard.randomizeShipPlacement();
 
 // set up player turns
@@ -61,8 +72,10 @@ function checkForWinner() {
 
 // restart the game
 function restartGame() {
-  playerOne = new Player("Mario", "human");
-  playerTwo = new Player("Destroyer", "computer");
+  let playerOne = new Player("human");
+  playerOne.setName(playerName);
+  let playerTwo = new Player("computer");
+  playerTwo.setName("AI Destroyer");
   playerTwo.gameboard.randomizeShipPlacement();
   dom = new Dom(playerOne, playerTwo);
   addBoats();
